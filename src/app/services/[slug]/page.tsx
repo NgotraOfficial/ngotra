@@ -36,7 +36,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     <div className="bg-[#09090b]">
       {/* Hero */}
       <div className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-20 md:py-28">
           <Link href="/services" className="text-sm text-neutral-500 hover:text-white transition-colors inline-flex items-center gap-1 mb-6">
             ← Back to services
           </Link>
@@ -51,7 +51,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       {/* Pricing Plans */}
       {plans.length > 0 && (
-        <div className="max-w-6xl mx-auto px-6 py-16 border-t border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16 border-t border-white/[0.06]">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-lg font-medium text-white">Pricing</h2>
@@ -67,7 +67,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       )}
 
       {/* CTA */}
-      <div className="max-w-6xl mx-auto px-6 py-16 border-t border-white/[0.06]">
+      <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16 border-t border-white/[0.06]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <p className="font-medium text-white">Ready to get started?</p>

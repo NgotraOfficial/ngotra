@@ -12,7 +12,7 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="gradient-text">Admin Panel</span>

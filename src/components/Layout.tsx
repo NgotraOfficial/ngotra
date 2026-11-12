@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDown, LogOut, Shield, Activity } from 'lucide-react'
+import { ChevronDown, LogOut, Shield, Activity, MessageSquare, Settings } from 'lucide-react'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -50,15 +50,19 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
 
   const siteName = siteSettings?.site_name || 'ngotra'
   const footerYear = siteSettings?.footer_year || '2024'
+  const logoUrl = siteSettings?.site_logo_url
 
   return (
     <div className="min-h-screen bg-[#09090b]">
       {/* Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200`}>
         <nav className={`border-b transition-colors ${scrolled ? 'border-white/10 bg-[#09090b]/80 backdrop-blur-xl' : 'border-white/[0.06]'}`}>
-          <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="text-base font-semibold tracking-tight text-white">{siteName}<span className="text-blue-400">.</span></span>
+          <div className="px-8 md:px-12 lg:px-20 xl:px-28 h-20 flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-3">
+              {logoUrl && (
+                <img src={logoUrl} alt={siteName} className="h-10 w-auto object-contain" />
+              )}
+              <span className="text-lg font-semibold tracking-tight text-white">{siteName}<span className="text-blue-400">.</span></span>
             </Link>
 
             <div className="hidden md:flex items-center gap-1">
@@ -66,7 +70,7 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+                  className={`px-4 py-2 text-[15px] rounded-lg transition-colors ${
                     pathname === link.href
                       ? 'text-white bg-white/10'
                       : 'text-neutral-500 hover:text-neutral-300'
@@ -81,7 +85,7 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
               {user ? (
                 <>
                   {user.role === 'ADMIN' && (
-                    <Link href="/admin" className="px-3 py-1.5 text-xs text-neutral-400 hover:text-yellow-400 transition-colors">
+                    <Link href="/admin" className="px-4 py-2 text-sm text-neutral-400 hover:text-yellow-400 transition-colors rounded-lg">
                       admin
                     </Link>
                   )}
@@ -104,6 +108,13 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
                       </div>
                       <div className="py-1">
                         <Link
+                          href="/tickets"
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
+                        >
+                          <MessageSquare size={14} />
+                          My Tickets
+                        </Link>
+                        <Link
                           href="/dashboard"
                           className="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
                         >
@@ -114,7 +125,7 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
                           href="/dashboard?tab=profile"
                           className="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
                         >
-                          <LogOut size={14} />
+                          <Settings size={14} />
                           Settings
                         </Link>
                         {user.role === 'ADMIN' && (
@@ -145,7 +156,7 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
               ) : (
                 <Link
                   href="/auth/login"
-                  className="px-3 py-1.5 text-xs bg-white/10 hover:bg-white/15 text-white rounded-md transition-colors"
+                  className="px-4 py-2 text-sm bg-white/10 hover:bg-white/15 text-white rounded-lg transition-colors"
                 >
                   Sign in
                 </Link>
@@ -234,13 +245,20 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
         </div>
       )}
 
-      <main className="pt-14">{children}</main>
+      <main className="pt-20 min-h-screen flex flex-col">
+        <div className="flex-1">
+          {children}
+        </div>
+      </main>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 mt-24">
-        <div className="max-w-6xl mx-auto px-6 py-12">
+      <footer className="border-t border-white/5 mt-auto bg-[#0c0c0f]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-24">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
             <div className="col-span-2 md:col-span-1">
+              {logoUrl ? (
+                <img src={logoUrl} alt={siteName} className="h-6 w-auto object-contain mb-3" />
+              ) : null}
               <span className="text-sm font-semibold tracking-tight text-white block mb-3">{siteName}<span className="text-blue-400">.</span></span>
               <p className="text-sm text-neutral-500 leading-relaxed">
                 Engineering high-performance web applications, mobile platforms, and custom infrastructure. We transform complex technical challenges into intuitive, production-ready solutions.

@@ -7,14 +7,16 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  username     String   @unique
+  id           String          @id @default(cuid())
+  email        String          @unique
+  username     String          @unique
   passwordHash String
-  role         Role     @default(USER)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  role         Role            @default(USER)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
   tickets      Ticket[]
+  messages     TicketMessage[]
+  sentMessages TicketMessage[] @relation("TicketMessagesSender")
 
   @@map("users")
 }
@@ -159,9 +161,9 @@ model Plan {
 model Ticket {
   id          String         @id @default(cuid())
   title       String
-  description String
+  description String?
   status      TicketStatus   @default(OPEN)
-  category    String
+  category    String?
   priority    TicketPriority @default(MEDIUM)
   userId      String
   userAgent   String?
@@ -169,6 +171,29 @@ model Ticket {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages    TicketMessage[]
+  adminReply  String?        // Admin's reply to customer
 
   @@map("tickets")
+}
+
+model TicketMessage {
+  id          String    @id @default(cuid())
+  ticketId    String
+  ticket      Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId      String
+  senderId    String    // User ID of the sender
+  content     String    // Message text
+  role        TicketRole
+  createdAt   DateTime  @default(now())
+
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sender      User @relation("TicketMessagesSender", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@map("ticket_messages")
+}
+
+enum TicketRole {
+  CUSTOMER
+  ADMIN
 }

@@ -1,81 +1,104 @@
-import { CheckCircle2 } from 'lucide-react'
-
-const values = [
-  { text: 'We write code we\'re comfortable running in production ourselves.' },
-  { text: 'Communication happens in the open — shared docs, not private DMs.' },
-  { text: 'Clear scope before we start. Scope changes are conversations, not surprises.' },
-  { text: 'Remote-first doesn\'t mean async-only. We hop on calls when it matters.' },
-]
-
-const timeline = [
-  { year: '2024', event: 'Started as a one-person operation building Minecraft servers for community projects.' },
-  { year: '2024 Q3', event: 'First web client — a small SaaS dashboard. Realized we enjoyed the full-stack work more than expected.' },
-  { year: '2025', event: 'Grew to three engineers. Took on mobile and game development contracts. CraftHaven MC server hit 12k members.' },
-  { year: 'Today', event: 'Six people across two timezones. Web, mobile, games, infrastructure — same straightforward approach.' },
-]
-
 export default function About() {
   return (
-    <div className="bg-[#09090b]">
-      <div className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+    <div className="min-h-screen">
+      {/* Header */}
+      <section className="bg-[#09090b] border-b border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-20 md:py-28">
           <p className="section-label mb-4">About us</p>
-          <h1 className="text-3xl md:text-5xl font-semibold text-white leading-tight max-w-2xl">
-            Small team.<br />
-            <span className="text-neutral-500">Serious about shipping.</span>
+          <h1 className="text-4xl md:text-6xl font-semibold text-white leading-[1.05] max-w-3xl">
+            We build software<br />
+            <span className="text-neutral-500">that works.</span>
           </h1>
+          <p className="mt-7 text-neutral-500 text-base md:text-lg max-w-2xl leading-relaxed">
+            Ngotra is a development team focused on delivering reliable, production-ready solutions.
+            We don't chase trends — we write code that stands the test of time.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 py-16">
-          {/* Left: Story */}
-          <div className="space-y-6 text-neutral-400 leading-relaxed">
-            <p>
-              Ngotra started in 2024 as a solo project — setting up Minecraft servers for friends
-              and small communities. It was weekend work, but the feedback kept coming:{" "}
-              <span className="text-neutral-300">"Can you also build this website?"</span>,
-              {" "}<span className="text-neutral-300">"Do you know anyone who can make an app?"</span>.
-            </p>
-            <p>
-              Those requests turned into a proper studio. Two years later we're six engineers working
-              across web, mobile, games, and infrastructure. We still take on projects the way we did
-              back then: honest conversation first, clear scope second, ship third.
-            </p>
-            <p>
-              We're not a agency that pivots every quarter. We're a small team that does a few things
-              well and gets paid to do them again.
-            </p>
+      {/* What we do */}
+      <section className="bg-[#0c0c0f]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16 md:py-20">
+          <p className="section-label mb-8">What we do</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ServiceCard
+              title="Web Development"
+              desc="Full-stack web applications built with modern frameworks. Clean architecture, scalable design, production-ready code."
+            />
+            <ServiceCard
+              title="Mobile Apps"
+              desc="Cross-platform mobile applications that feel native. iOS and Android from a single codebase."
+            />
+            <ServiceCard
+              title="Game Development"
+              desc="Custom games and interactive experiences. From prototypes to full releases."
+            />
+            <ServiceCard
+              title="Minecraft Services"
+              desc="Server setup, custom mods, and plugins. We've powered servers with thousands of concurrent players."
+            />
+            <ServiceCard
+              title="DevOps"
+              desc="Deployment, monitoring, and infrastructure. We handle the ops so you can focus on the product."
+            />
+            <ServiceCard
+              title="Consulting"
+              desc="Technical guidance for your next project. Architecture reviews, tech stack selection, and more."
+            />
           </div>
+        </div>
+      </section>
 
-          {/* Right: Values + Timeline */}
-          <div className="space-y-12">
+      {/* Approach */}
+      <section className="bg-[#09090b] border-t border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16 md:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <p className="section-label mb-5">How we work</p>
-              <ul className="space-y-3">
-                {values.map((v, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-neutral-400">
-                    <CheckCircle2 size={16} className="text-blue-500 mt-0.5 flex-shrink-0" />
-                    {v.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="section-label mb-5">Timeline</p>
-              <div className="space-y-4">
-                {timeline.map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <span className="text-xs font-mono text-neutral-600 w-20 pt-0.5 shrink-0">{item.year}</span>
-                    <p className="text-sm text-neutral-400 leading-relaxed">{item.event}</p>
-                  </div>
-                ))}
+              <p className="section-label mb-4">Our approach</p>
+              <div className="space-y-4 text-neutral-400">
+                <p>
+                  We believe in shipping software that works — not just for demos, but in production,
+                  under real load, with real users.
+                </p>
+                <p>
+                  Every project starts with a conversation. We listen to what you need, ask questions
+                  about constraints, and propose a solution that fits.
+                </p>
+                <p>
+                  No jargon, no fluff. Just honest engineering and clear communication from start to finish.
+                </p>
               </div>
             </div>
+            <div>
+              <p className="section-label mb-4">Principles</p>
+              <ul className="space-y-3">
+                <PrincipleItem text="Write code we'd run ourselves" />
+                <PrincipleItem text="Ship early, iterate often" />
+                <PrincipleItem text="Document as we go" />
+                <PrincipleItem text="Test what matters" />
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
+  )
+}
+
+function ServiceCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="card p-6">
+      <h3 className="font-medium text-white mb-2">{title}</h3>
+      <p className="text-sm text-neutral-500 leading-relaxed">{desc}</p>
+    </div>
+  )
+}
+
+function PrincipleItem({ text }: { text: string }) {
+  return (
+    <li className="flex items-start gap-3">
+      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
+      <span className="text-neutral-400">{text}</span>
+    </li>
   )
 }

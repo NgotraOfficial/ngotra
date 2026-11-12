@@ -9,25 +9,37 @@ export default async function TeamPage() {
   const members = await getTeam()
 
   return (
-    <div className="bg-[#09090b]">
-      <div className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-8">
+    <div className="min-h-screen">
+      {/* Header with content */}
+      <section className="bg-[#09090b] border-b border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-20 md:py-28">
+          <p className="section-label mb-4">Our team</p>
+          <h1 className="text-4xl md:text-6xl font-semibold text-white leading-[1.05] max-w-3xl">
+            The people behind<br /><span className="text-neutral-500">the code.</span>
+          </h1>
+          <p className="mt-7 text-neutral-500 text-base md:text-lg max-w-xl leading-relaxed">
+            Six engineers across two timezones. We've shipped 50+ projects together —
+            and we're just getting started.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        {members.length === 0 ? (
-          <div className="card p-8 text-center text-neutral-500 text-sm">No team members added yet.</div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {members.map((member) => (
-              <Link href={`/team/${member.slug}`} key={member.id} className="block no-underline">
-                <TeamCard member={member} />
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
+      {/* Members grid */}
+      <section className="bg-[#0c0c0f]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16 md:py-20">
+          {members.length === 0 ? (
+            <div className="card p-8 text-center text-neutral-500 text-sm">No team members added yet.</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {members.map((member) => (
+                <Link href={`/team/${member.slug}`} key={member.id} className="block no-underline">
+                  <TeamCard member={member} />
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   )
 }

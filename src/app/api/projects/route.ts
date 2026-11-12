@@ -15,7 +15,8 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
-  const project = await prisma.project.create({ data: body })
+  const { id, ...data } = body
+  const project = await prisma.project.create({ data })
   return NextResponse.json(project, { status: 201 })
 }
 
@@ -25,6 +26,7 @@ export async function PUT(req: Request) {
 
   const body = await req.json()
   const { id, ...data } = body
+  if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   const project = await prisma.project.update({ where: { id }, data })
   return NextResponse.json(project)
 }

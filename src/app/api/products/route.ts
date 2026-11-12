@@ -31,7 +31,8 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
-  const product = await prisma.product.create({ data: body })
+  const { id, ...data } = body
+  const product = await prisma.product.create({ data })
   return NextResponse.json(product, { status: 201 })
 }
 
@@ -41,6 +42,7 @@ export async function PUT(req: Request) {
 
   const body = await req.json()
   const { id, ...data } = body
+  if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   const product = await prisma.product.update({ where: { id }, data })
   return NextResponse.json(product)
 }

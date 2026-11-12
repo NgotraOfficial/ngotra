@@ -19,7 +19,8 @@ export async function POST(req: Request) {
   const session = await requireAdmin()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json()
-  const plan = await prisma.plan.create({ data: body })
+  const { id, ...data } = body
+  const plan = await prisma.plan.create({ data })
   return NextResponse.json(plan, { status: 201 })
 }
 
@@ -28,6 +29,7 @@ export async function PUT(req: Request) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const body = await req.json()
   const { id, ...data } = body
+  if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   const plan = await prisma.plan.update({ where: { id }, data })
   return NextResponse.json(plan)
 }

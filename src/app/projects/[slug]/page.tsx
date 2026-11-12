@@ -32,7 +32,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     <div className="bg-[#09090b]">
       {/* Hero */}
       <div className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-20 md:py-28">
           <Link href="/projects" className="text-sm text-neutral-500 hover:text-white transition-colors inline-flex items-center gap-1 mb-6">
             <ArrowLeft size={14} /> Back to projects
           </Link>
@@ -80,7 +80,7 @@ export default async function ProjectDetailPage({ params }: Props) {
       </div>
 
       {/* Details */}
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-6">
             <div>
