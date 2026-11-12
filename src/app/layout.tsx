@@ -4,6 +4,9 @@ import "./globals.css";
 import Layout from "@/components/Layout";
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/session";
+
+export const dynamic = 'force-dynamic';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,13 +41,16 @@ async function getSiteSettings() {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const siteSettings = await getSiteSettings();
+  const [siteSettings, session] = await Promise.all([
+    getSiteSettings(),
+    getSession(),
+  ]);
 
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-[#05050a] text-white`}>
         <Suspense fallback={<div className="min-h-screen bg-[#05050a]" />}>
-          <Layout user={null} siteSettings={siteSettings}>{children}</Layout>
+          <Layout user={session?.user || null} siteSettings={siteSettings}>{children}</Layout>
         </Suspense>
       </body>
     </html>
