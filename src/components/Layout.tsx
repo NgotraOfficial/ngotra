@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDown, LogOut, Shield, Activity, MessageSquare, Settings, Menu as MenuIcon, X as XIcon } from 'lucide-react'
+import { ChevronDown, LogOut, Shield, Activity, MessageSquare, Settings } from 'lucide-react'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -20,7 +20,6 @@ export default function Layout({ children, user: initialUser, siteSettings }: La
   const [scrolled, setScrolled] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
 
-  // Client-side session fetch — fixes the "instant logout" bug when SSR can't read cookies due to dynamic configs
   useEffect(() => {
     async function fetchSession() {
       try {
