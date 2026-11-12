@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
 
 export default function Login() {
+  const router = useRouter()
   const [formData, setFormData] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -19,14 +21,11 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-        redirect: 'manual',
       })
-      if (res.status === 302 || res.status === 301) {
-        window.location.href = '/'
-      } else {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || 'Login failed')
-      }
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Login failed')
+      router.push('/')
+      router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
       setLoading(false)

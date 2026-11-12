@@ -49,7 +49,11 @@ export async function POST(request: NextRequest) {
       .setExpirationTime('7d')
       .sign(SECRET)
 
-    const response = NextResponse.redirect(new URL('/', request.url))
+    const response = NextResponse.json(
+      { message: 'Login successful', user: { id: user.id, username: user.username, email: user.email, role: user.role } },
+      { status: 200 }
+    )
+
     response.cookies.set('session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
