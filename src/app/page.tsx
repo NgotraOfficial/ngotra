@@ -21,13 +21,13 @@ async function getSiteData() {
     }),
   ])
   return {
-    settings: Object.fromEntries(settings.map(s => [s.key, s.value])),
-    projects: projects.map(p => ({
+    settings: Object.fromEntries(settings.map((s: { key: string; value: string }) => [s.key, s.value])),
+    projects: projects.map((p: { id: string; title: string; description: string; tags?: string; createdAt: Date; link?: string; slug: string }) => ({
       id: p.id,
       title: p.title,
       category: 'Project',
       description: p.description,
-      tags: p.tags?.split(',').map(t => t.trim()).filter(Boolean) || [],
+      tags: p.tags?.split(',').map((t: string) => t.trim()).filter(Boolean) || [],
       year: new Date(p.createdAt).getFullYear().toString(),
       link: p.link || `/projects/${p.slug}`,
     })),
@@ -90,7 +90,7 @@ export default async function Home() {
           </div>
 
           <div className="space-y-px">
-            {projects.length > 0 ? projects.map((project, i) => (
+            {projects.length > 0 ? projects.map((project: any, i: number) => (
               <ProjectRow key={project.id} project={project} />
             )) : (
               <div className="card p-8 text-center text-neutral-500 text-sm">No featured projects yet.</div>

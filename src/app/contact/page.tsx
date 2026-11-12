@@ -9,7 +9,7 @@ async function getSettings() {
       key: { in: ['social_discord'] }
     }
   })
-  return Object.fromEntries(settingsRaw.map(s => [s.key, s.value]))
+  return Object.fromEntries(settingsRaw.map((s: { key: string; value: string }) => [s.key, s.value]))
 }
 
 export default async function ContactPage() {

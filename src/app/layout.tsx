@@ -34,7 +34,7 @@ interface Props {
 async function getSiteSettings() {
   'use cache';
   const settingsRaw = await prisma.siteSetting.findMany();
-  return Object.fromEntries(settingsRaw.map(s => [s.key, s.value]));
+  return Object.fromEntries(settingsRaw.map((s: { key: string; value: string }) => [s.key, s.value]));
 }
 
 async function AuthShell({ sessionPromise, children }: { sessionPromise: Promise<Session | null>; children: React.ReactNode }) {
