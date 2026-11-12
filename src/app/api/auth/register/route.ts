@@ -38,9 +38,11 @@ export async function POST(request: NextRequest) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10)
+    console.log('[Register] Creating user:', email)
     const user = await prisma.user.create({
       data: { email, username, passwordHash, role: 'USER' }
     })
+    console.log('[Register] User created id:', user.id)
 
     const token = await new SignJWT({
       id: user.id,
