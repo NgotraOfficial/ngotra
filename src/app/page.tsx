@@ -38,24 +38,24 @@ export default async function Home() {
   const { settings, projects } = await getSiteData()
 
   return (
-    <div className="bg-[#09090b]">
+    <div className="min-h-screen">
       {/* Hero */}
-      <section className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
-          <p className="section-label mb-6">Ngotra Studio</p>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white leading-[1.08] tracking-tight max-w-3xl">
+      <section className="bg-[#09090b] border-b border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 pt-32 md:pt-40 pb-28 md:pb-36">
+          <p className="section-label mb-5 text-xs md:text-sm">{settings['site_name'] ? `${settings['site_name']} Studio` : 'Studio'}</p>
+          <h1 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-white leading-[1.1] tracking-tight">
             We build software<br />
-            <span className="text-neutral-500">{settings['hero_sub'] || 'that scales when it matters.'}</span>
+            <span className="text-neutral-500 text-sm md:text-base">{settings['hero_sub'] || 'that scales when it matters.'}</span>
           </h1>
-          <p className="mt-8 text-lg text-neutral-500 max-w-xl leading-relaxed">
+          <p className="mt-5 text-sm md:text-base lg:text-lg text-neutral-500 max-w-xl leading-relaxed">
             {settings['site_description'] || 'A small team of engineers crafting web apps, games, mobile products, and Minecraft ecosystems — everything from first commit to live deployment.'}
           </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link href="/contact" className="btn-primary">
+          <div className="mt-6 flex flex-wrap gap-2">
+            <Link href="/contact" className="btn-primary text-sm py-2 px-5">
               Start a project
-              <ArrowUpRight size={15} />
+              <ArrowUpRight size={13} />
             </Link>
-            <Link href="/projects" className="btn-secondary">
+            <Link href="/projects" className="btn-secondary text-sm py-2 px-5">
               View work
             </Link>
           </div>
@@ -63,12 +63,12 @@ export default async function Home() {
       </section>
 
       {/* Services strip */}
-      <section className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          <div className="flex flex-wrap gap-x-8 gap-y-4">
+      <section className="bg-[#0c0c0f] border-b border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-8">
+          <div className="flex flex-wrap gap-x-10 gap-y-4">
             {CATEGORIES.map((s) => (
               <span key={s} className="text-sm text-neutral-600 flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-neutral-700 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-700 inline-block" />
                 {s}
               </span>
             ))}
@@ -77,8 +77,8 @@ export default async function Home() {
       </section>
 
       {/* Projects */}
-      <section className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+      <section className="bg-[#09090b] border-b border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-20 md:py-28">
           <div className="flex items-end justify-between mb-12">
             <div>
               <p className="section-label mb-3">Selected work</p>
@@ -99,10 +99,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Stats row */}
-      <section className="border-b border-white/[0.06]">
-        <div className="max-w-6xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      {/* Stats */}
+      <section className="bg-[#0c0c0f] border-b border-white/[0.06]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-16 md:py-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {[
               ['50+', 'Projects shipped'],
               ['2yr+', 'Avg client engagement'],
@@ -110,8 +110,8 @@ export default async function Home() {
               ['24h', 'Average response time'],
             ].map(([value, label], i) => (
               <div key={i}>
-                <p className="text-3xl font-semibold text-white tracking-tight">{value}</p>
-                <p className="text-sm text-neutral-600 mt-1">{label}</p>
+                <p className="text-4xl md:text-5xl font-semibold text-white tracking-tight">{value}</p>
+                <p className="text-sm text-neutral-600 mt-2 uppercase tracking-wider">{label}</p>
               </div>
             ))}
           </div>
@@ -119,9 +119,9 @@ export default async function Home() {
       </section>
 
       {/* CTA */}
-      <section>
-        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <div className="max-w-2xl">
+      <section className="bg-[#09090b]">
+        <div className="px-8 md:px-12 lg:px-20 xl:px-28 py-20 md:py-28">
+          <div className="max-w-xl">
             <p className="section-label mb-4">Next project</p>
             <h2 className="text-2xl md:text-4xl font-semibold text-white leading-tight mb-6">
               Have something you want<br />to build?
@@ -143,7 +143,7 @@ export default async function Home() {
 
 function ProjectRow({ project }: { project: { id: string; title: string; category: string; description: string; tags: string[]; year: string; link?: string } }) {
   return (
-    <a href={project.link || '#'} className="block card p-5 md:p-6 group cursor-pointer transition-colors no-underline">
+    <a href={project.link || '#'} className="block card p-5 md:p-7 group cursor-pointer transition-colors no-underline">
       <div className="grid grid-cols-[1fr_auto] md:grid-cols-[1fr_200px_auto] gap-4 items-start">
         <div>
           <div className="flex items-center gap-3 mb-2">
