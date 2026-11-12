@@ -1091,27 +1091,28 @@ function TextBlockEditor({
   onSave: (t: { key: string; content: string }) => void
   onCancel: () => void
 }) {
+  const [draft, setDraft] = useState(textBlock)
   return (
     <div className="p-5 bg-neutral-900 border-b border-white/5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={textBlock.key}
-          onChange={(e) => onSave({ ...textBlock, key: e.target.value })}
+          value={draft.key}
+          onChange={(e) => setDraft(prev => ({ ...prev, key: e.target.value }))}
           placeholder="Block key (e.g. hero_title, site_tagline)"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={textBlock.content}
-          onChange={(e) => onSave({ ...textBlock, content: e.target.value })}
+          value={draft.content}
+          onChange={(e) => setDraft(prev => ({ ...prev, content: e.target.value }))}
           placeholder="Content text"
           className="input-field text-sm"
         />
       </div>
       <textarea
-        value={textBlock.content}
-        onChange={(e) => onSave({ ...textBlock, content: e.target.value })}
+        value={draft.content}
+        onChange={(e) => setDraft(prev => ({ ...prev, content: e.target.value }))}
         placeholder="Full content (for longer text blocks)"
         rows={4}
         className="input-field resize-none text-sm"
@@ -1119,7 +1120,7 @@ function TextBlockEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(textBlock)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save Text Block
@@ -1138,27 +1139,28 @@ function UserEditor({
   onSave: (u: { id: string; username: string; email: string; role: string }) => void
   onCancel: () => void
 }) {
+  const [draft, setDraft] = useState(user)
   return (
     <div className="p-5 bg-neutral-900 border-b border-white/5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={user.username}
-          onChange={(e) => onSave({ ...user, username: e.target.value })}
+          value={draft.username}
+          onChange={(e) => setDraft(prev => ({ ...prev, username: e.target.value }))}
           placeholder="Username"
           className="input-field text-sm"
         />
         <input
           type="email"
-          value={user.email}
-          onChange={(e) => onSave({ ...user, email: e.target.value })}
+          value={draft.email}
+          onChange={(e) => setDraft(prev => ({ ...prev, email: e.target.value }))}
           placeholder="Email"
           className="input-field text-sm"
         />
       </div>
       <select
-        value={user.role}
-        onChange={(e) => onSave({ ...user, role: e.target.value })}
+        value={draft.role}
+        onChange={(e) => setDraft(prev => ({ ...prev, role: e.target.value }))}
         className="input-field text-sm"
       >
         <option value="USER">User</option>
@@ -1167,7 +1169,7 @@ function UserEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(user)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save User
@@ -1225,28 +1227,29 @@ function ServiceEditor({
   onSave: (s: Service) => void
   onCancel: () => void
 }) {
+  const [draft, setDraft] = useState(service)
   return (
     <div className="p-5 bg-neutral-900 border-b border-white/5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={service.name}
-          onChange={(e) => onSave({ ...service, name: e.target.value })}
+          value={draft.name}
+          onChange={(e) => setDraft(prev => ({ ...prev, name: e.target.value }))}
           placeholder="Service name (e.g. Minecraft Mod Development)"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={service.slug}
-          onChange={(e) => onSave({ ...service, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+          value={draft.slug}
+          onChange={(e) => setDraft(prev => ({ ...prev, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') }))}
           placeholder="Slug (e.g. minecraft-mod)"
           className="input-field text-sm"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <textarea
-          value={service.description}
-          onChange={(e) => onSave({ ...service, description: e.target.value })}
+          value={draft.description}
+          onChange={(e) => setDraft(prev => ({ ...prev, description: e.target.value }))}
           placeholder="Brief description of this service"
           rows={2}
           className="input-field resize-none text-sm"
@@ -1254,16 +1257,16 @@ function ServiceEditor({
         <div className="space-y-2">
           <input
             type="text"
-            value={service.price || ''}
-            onChange={(e) => onSave({ ...service, price: e.target.value })}
+            value={draft.price || ''}
+            onChange={(e) => setDraft(prev => ({ ...prev, price: e.target.value }))}
             placeholder="Price (optional, e.g. $299)"
             className="input-field text-sm"
           />
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
-              checked={service.featured}
-              onChange={(e) => onSave({ ...service, featured: e.target.checked })}
+              checked={draft.featured}
+              onChange={(e) => setDraft(prev => ({ ...prev, featured: e.target.checked }))}
               id="featured-toggle"
               className="rounded border-neutral-700 bg-neutral-800"
             />
@@ -1279,7 +1282,7 @@ function ServiceEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(service)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save Service
@@ -1298,28 +1301,29 @@ function ProjectEditor({
   onSave: (p: Project) => void
   onCancel: () => void
 }) {
+  const [draft, setDraft] = useState(project)
   return (
     <div className="p-5 bg-neutral-900 border-b border-white/5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={project.title}
-          onChange={(e) => onSave({ ...project, title: e.target.value })}
+          value={draft.title}
+          onChange={(e) => setDraft(prev => ({ ...prev, title: e.target.value }))}
           placeholder="Project title"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={project.slug}
-          onChange={(e) => onSave({ ...project, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+          value={draft.slug}
+          onChange={(e) => setDraft(prev => ({ ...prev, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') }))}
           placeholder="Slug"
           className="input-field text-sm"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <textarea
-          value={project.description}
-          onChange={(e) => onSave({ ...project, description: e.target.value })}
+          value={draft.description}
+          onChange={(e) => setDraft(prev => ({ ...prev, description: e.target.value }))}
           placeholder="Project description"
           rows={3}
           className="input-field resize-none text-sm"
@@ -1327,30 +1331,30 @@ function ProjectEditor({
         <div className="space-y-2">
           <input
             type="text"
-            value={project.tags || ''}
-            onChange={(e) => onSave({ ...project, tags: e.target.value })}
+            value={draft.tags || ''}
+            onChange={(e) => setDraft(prev => ({ ...prev, tags: e.target.value }))}
             placeholder="Tags (comma-separated, first = category)"
             className="input-field text-sm"
           />
           <input
             type="text"
-            value={project.image || ''}
-            onChange={(e) => onSave({ ...project, image: e.target.value })}
+            value={draft.image || ''}
+            onChange={(e) => setDraft(prev => ({ ...prev, image: e.target.value }))}
             placeholder="Image URL (optional)"
             className="input-field text-sm"
           />
           <input
             type="text"
-            value={project.link || ''}
-            onChange={(e) => onSave({ ...project, link: e.target.value })}
+            value={draft.link || ''}
+            onChange={(e) => setDraft(prev => ({ ...prev, link: e.target.value }))}
             placeholder="Live URL (optional)"
             className="input-field text-sm"
           />
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
-              checked={project.featured}
-              onChange={(e) => onSave({ ...project, featured: e.target.checked })}
+              checked={draft.featured}
+              onChange={(e) => setDraft(prev => ({ ...prev, featured: e.target.checked }))}
               id="proj-featured"
               className="rounded border-neutral-700 bg-neutral-800"
             />
@@ -1361,7 +1365,7 @@ function ProjectEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(project)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save Project
@@ -1382,28 +1386,29 @@ function ProductEditor({
   onSave: (p: Product) => void
   onCancel: () => void
 }) {
+  const [draft, setDraft] = useState(product)
   return (
     <div className="p-5 bg-neutral-900 border-b border-white/5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={product.name}
-          onChange={(e) => onSave({ ...product, name: e.target.value })}
+          value={draft.name}
+          onChange={(e) => setDraft(prev => ({ ...prev, name: e.target.value }))}
           placeholder="Item name (e.g. Custom Survival Mod v1.2)"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={product.slug}
-          onChange={(e) => onSave({ ...product, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+          value={draft.slug}
+          onChange={(e) => setDraft(prev => ({ ...prev, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') }))}
           placeholder="Slug"
           className="input-field text-sm"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <select
-          value={product.serviceId}
-          onChange={(e) => onSave({ ...product, serviceId: e.target.value })}
+          value={draft.serviceId}
+          onChange={(e) => setDraft(prev => ({ ...prev, serviceId: e.target.value }))}
           className="input-field text-sm"
         >
           <option value="">Select service...</option>
@@ -1413,24 +1418,24 @@ function ProductEditor({
         </select>
         <input
           type="text"
-          value={product.price || ''}
-          onChange={(e) => onSave({ ...product, price: e.target.value })}
+          value={draft.price || ''}
+          onChange={(e) => setDraft(prev => ({ ...prev, price: e.target.value }))}
           placeholder="Price (optional, e.g. Free or $49)"
           className="input-field text-sm"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <textarea
-          value={product.description}
-          onChange={(e) => onSave({ ...product, description: e.target.value })}
+          value={draft.description}
+          onChange={(e) => setDraft(prev => ({ ...prev, description: e.target.value }))}
           placeholder="What&apos;s included in this download"
           rows={3}
           className="input-field resize-none text-sm"
         />
         <input
           type="text"
-          value={product.fileUrl || ''}
-          onChange={(e) => onSave({ ...product, fileUrl: e.target.value })}
+          value={draft.fileUrl || ''}
+          onChange={(e) => setDraft(prev => ({ ...prev, fileUrl: e.target.value }))}
           placeholder="File URL (Google Drive, Dropbox, CDN link...)"
           className="input-field text-sm"
         />
@@ -1438,8 +1443,8 @@ function ProductEditor({
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
-          checked={product.featured}
-          onChange={(e) => onSave({ ...product, featured: e.target.checked })}
+          checked={draft.featured}
+          onChange={(e) => setDraft(prev => ({ ...prev, featured: e.target.checked }))}
           id="prod-featured"
           className="rounded border-neutral-700 bg-neutral-800"
         />
@@ -1448,7 +1453,7 @@ function ProductEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(product)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save Download
@@ -1471,6 +1476,7 @@ function TeamEditor({
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>, settingKey: string) => void
   uploading: string | null
 }) {
+  const [draft, setDraft] = useState(member)
   const [socials, setSocials] = useState<{
     github?: string; linkedin?: string; twitter?: string;
     instagram?: string; facebook?: string; tiktok?: string;
@@ -1484,15 +1490,15 @@ function TeamEditor({
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={member.name}
-          onChange={(e) => onSave({ ...member, name: e.target.value })}
+          value={draft.name}
+          onChange={(e) => setDraft(prev => ({ ...prev, name: e.target.value }))}
           placeholder="Full name"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={member.services || ''}
-          onChange={(e) => onSave({ ...member, services: e.target.value })}
+          value={draft.services || ''}
+          onChange={(e) => setDraft(prev => ({ ...prev, services: e.target.value }))}
           placeholder="Role / Specialization"
           className="input-field text-sm"
         />
@@ -1500,38 +1506,38 @@ function TeamEditor({
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={member.slug}
-          onChange={(e) => onSave({ ...member, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+          value={draft.slug}
+          onChange={(e) => setDraft(prev => ({ ...prev, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') }))}
           placeholder="Slug (e.g. john-doe)"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={member.services || ''}
-          onChange={(e) => onSave({ ...member, services: e.target.value })}
+          value={draft.services || ''}
+          onChange={(e) => setDraft(prev => ({ ...prev, services: e.target.value }))}
           placeholder="Specialization (e.g. Backend, Minecraft)"
           className="input-field text-sm"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
         <textarea
-          value={member.bio || ''}
-          onChange={(e) => onSave({ ...member, bio: e.target.value })}
+          value={draft.bio || ''}
+          onChange={(e) => setDraft(prev => ({ ...prev, bio: e.target.value }))}
           placeholder="Short bio (2-3 sentences)"
           rows={3}
           className="input-field resize-none text-sm"
         />
         <div className="space-y-2">
-          {member.logo && (
+          {draft.logo && (
             <div className="p-2 bg-neutral-800 rounded border border-white/5">
-              <img src={member.logo} alt="Logo" className="h-12 w-12 rounded-full object-cover" />
+              <img src={draft.logo} alt="Logo" className="h-12 w-12 rounded-full object-cover" />
             </div>
           )}
           <div className="flex items-center gap-2">
             <input
               type="text"
-              value={member.logo || ''}
-              onChange={(e) => onSave({ ...member, logo: e.target.value })}
+              value={draft.logo || ''}
+              onChange={(e) => setDraft(prev => ({ ...prev, logo: e.target.value }))}
               placeholder="Logo URL (optional)"
               className="input-field text-sm flex-1"
             />
@@ -1555,56 +1561,56 @@ function TeamEditor({
           <input
             type="url"
             value={socials.github || ''}
-            onChange={(e) => { const next = { ...socials, github: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, github: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="GitHub URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.linkedin || ''}
-            onChange={(e) => { const next = { ...socials, linkedin: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, linkedin: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="LinkedIn URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.twitter || ''}
-            onChange={(e) => { const next = { ...socials, twitter: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, twitter: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="X / Twitter URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.instagram || ''}
-            onChange={(e) => { const next = { ...socials, instagram: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, instagram: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="Instagram URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.facebook || ''}
-            onChange={(e) => { const next = { ...socials, facebook: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, facebook: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="Facebook URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.tiktok || ''}
-            onChange={(e) => { const next = { ...socials, tiktok: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, tiktok: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="TikTok URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.discord || ''}
-            onChange={(e) => { const next = { ...socials, discord: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, discord: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="Discord URL"
             className="input-field text-sm"
           />
           <input
             type="url"
             value={socials.youtube || ''}
-            onChange={(e) => { const next = { ...socials, youtube: e.target.value }; onSave({ ...member, socials: JSON.stringify(next) }); setSocials(next) }}
+            onChange={(e) => { const next = { ...socials, youtube: e.target.value }; setDraft(prev => ({ ...prev, socials: JSON.stringify(next) })); setSocials(next) }}
             placeholder="YouTube URL"
             className="input-field text-sm"
           />
@@ -1613,8 +1619,8 @@ function TeamEditor({
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
-          checked={member.featured}
-          onChange={(e) => onSave({ ...member, featured: e.target.checked })}
+          checked={draft.featured}
+          onChange={(e) => setDraft(prev => ({ ...prev, featured: e.target.checked }))}
           id="team-featured"
           className="rounded border-neutral-700 bg-neutral-800"
         />
@@ -1623,7 +1629,7 @@ function TeamEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(member)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save Member
@@ -1644,12 +1650,13 @@ function PlanEditor({
   onSave: (p: Plan) => void
   onCancel: () => void
 }) {
+  const [draft, setDraft] = useState(plan)
   return (
     <div className="p-5 bg-neutral-900 border-b border-white/5 space-y-3">
       <div className="grid grid-cols-2 gap-3">
         <select
-          value={plan.serviceSlug}
-          onChange={(e) => onSave({ ...plan, serviceSlug: e.target.value })}
+          value={draft.serviceSlug}
+          onChange={(e) => setDraft(prev => ({ ...prev, serviceSlug: e.target.value }))}
           className="input-field text-sm"
         >
           <option value="">Select service...</option>
@@ -1658,8 +1665,8 @@ function PlanEditor({
           ))}
         </select>
         <select
-          value={plan.level}
-          onChange={(e) => onSave({ ...plan, level: e.target.value })}
+          value={draft.level}
+          onChange={(e) => setDraft(prev => ({ ...prev, level: e.target.value }))}
           className="input-field text-sm"
         >
           <option value="REGULAR">Regular</option>
@@ -1670,22 +1677,22 @@ function PlanEditor({
       <div className="grid grid-cols-2 gap-3">
         <input
           type="text"
-          value={plan.title}
-          onChange={(e) => onSave({ ...plan, title: e.target.value })}
+          value={draft.title}
+          onChange={(e) => setDraft(prev => ({ ...prev, title: e.target.value }))}
           placeholder="Plan title (e.g. Starter, Pro, Enterprise)"
           className="input-field text-sm"
         />
         <input
           type="text"
-          value={plan.price}
-          onChange={(e) => onSave({ ...plan, price: e.target.value })}
+          value={draft.price}
+          onChange={(e) => setDraft(prev => ({ ...prev, price: e.target.value }))}
           placeholder="Price (e.g. $299 or $49/mo)"
           className="input-field text-sm"
         />
       </div>
       <textarea
-        value={plan.description}
-        onChange={(e) => onSave({ ...plan, description: e.target.value })}
+        value={draft.description}
+        onChange={(e) => setDraft(prev => ({ ...prev, description: e.target.value }))}
         placeholder="Short description of what's included"
         rows={2}
         className="input-field resize-none text-sm"
@@ -1693,8 +1700,8 @@ function PlanEditor({
       <div>
         <label className="text-xs text-neutral-500 block mb-1.5">Features (one per line)</label>
         <textarea
-          value={plan.features}
-          onChange={(e) => onSave({ ...plan, features: e.target.value })}
+          value={draft.features}
+          onChange={(e) => setDraft(prev => ({ ...prev, features: e.target.value }))}
           placeholder="5+ core features&#10;Custom integrations&#10;24/7 support"
           rows={4}
           className="input-field resize-none text-sm font-mono"
@@ -1703,8 +1710,8 @@ function PlanEditor({
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
-          checked={plan.recommended}
-          onChange={(e) => onSave({ ...plan, recommended: e.target.checked })}
+          checked={draft.recommended}
+          onChange={(e) => setDraft(prev => ({ ...prev, recommended: e.target.checked }))}
           id="plan-recommended"
           className="rounded border-neutral-700 bg-neutral-800"
         />
@@ -1713,7 +1720,7 @@ function PlanEditor({
       <div className="flex justify-end gap-2">
         <button onClick={onCancel} className="px-3 py-1.5 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
         <button
-          onClick={() => onSave(plan)}
+          onClick={() => onSave(draft)}
           className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-500"
         >
           <Save size={14} /> Save Plan

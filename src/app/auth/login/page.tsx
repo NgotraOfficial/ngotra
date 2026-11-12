@@ -14,20 +14,23 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
+    setLoading(true)
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
+        redirect: 'manual',
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Login failed')
-      router.refresh()
+      if (res.status === 302 || res.status === 301) {
+        window.location.href = '/'
+      } else {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || 'Login failed')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
-    } finally {
       setLoading(false)
     }
   }
@@ -89,7 +92,7 @@ export default function Login() {
               disabled={loading}
               className="btn-primary w-full justify-center"
             >
-              Sign In
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
