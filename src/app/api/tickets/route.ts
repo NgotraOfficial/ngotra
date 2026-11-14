@@ -35,8 +35,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const session = await getSession()
   if (!session) {
+    console.error('[Tickets POST] No session found')
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+  console.log('[Tickets POST] Creating ticket for:', session.user.username, 'role:', session.user.role)
 
   const body = await request.json()
   const { title, description, category, priority } = body
