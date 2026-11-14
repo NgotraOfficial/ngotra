@@ -50,6 +50,12 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  // Verify the user still exists in the database (session could be stale after DB reset)
+  const existingUser = await prisma.user.findUnique({ where: { id: session.user.id } })
+  if (!existingUser) {
+    return NextResponse.json({ error: 'Session expired, please log in again' }, { status: 401 })
+  }
+
   try {
     const ticket = await prisma.ticket.create({
       data: {
