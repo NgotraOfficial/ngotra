@@ -50,7 +50,7 @@ export default function DashboardPage() {
   const [messageInput, setMessageInput] = useState('')
   const [sending, setSending] = useState(false)
   const [hasMore, setHasMore] = useState(true)
-  const messagesEndRef = useRef<HTMLDivElement>(null>
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const chatListRef = useRef<HTMLDivElement>(null)
 
   // Ticket form state

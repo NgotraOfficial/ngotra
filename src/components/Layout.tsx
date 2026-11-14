@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDown, LogOut, Shield, Activity, Settings }
+import { ChevronDown, LogOut, Shield, Activity, Settings } from 'lucide-react'
 
 interface LayoutProps {
   children: React.ReactNode
