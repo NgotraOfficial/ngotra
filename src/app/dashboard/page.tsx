@@ -64,7 +64,7 @@ export default function DashboardPage() {
     try {
       const res = await fetch('/api/tickets')
       const data = await res.json()
-      setTickets(data)
+      setTickets(Array.isArray(data) ? data : (data?.tickets ?? []))
     } catch {}
   }, [])
 
@@ -76,7 +76,7 @@ export default function DashboardPage() {
       try {
         const [st, tk] = await Promise.all([
           fetch('/api/admin/stats').then(r => r.json()).catch(() => null),
-          fetch('/api/tickets').then(r => r.json()).catch(() => []),
+          fetch('/api/tickets').then(r => r.json()).then(d => Array.isArray(d) ? d : (d?.tickets ?? [])).catch(() => []),
         ])
         setStats(st)
         setTickets(tk)
