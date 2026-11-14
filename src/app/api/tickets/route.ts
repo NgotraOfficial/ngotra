@@ -50,33 +50,41 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const ticket = await prisma.ticket.create({
-    data: {
-      title,
-      description: null,
-      category: category || 'General',
-      priority: priority || 'MEDIUM',
-      status: 'OPEN',
-      userId: session.user.id,
-      messages: {
-        create: {
-          userId: session.user.id,
-          senderId: session.user.id,
-          content: description,
-          role: 'CUSTOMER'
+  try {
+    const ticket = await prisma.ticket.create({
+      data: {
+        title,
+        description: null,
+        category: category || 'General',
+        priority: priority || 'MEDIUM',
+        status: 'OPEN',
+        userId: session.user.id,
+        messages: {
+          create: {
+            userId: session.user.id,
+            senderId: session.user.id,
+            content: description,
+            role: 'CUSTOMER'
+          }
+        }
+      },
+      include: {
+        user: { select: { id: true, username: true, email: true } },
+        messages: {
+          orderBy: { createdAt: 'asc' },
+          include: {
+            sender: { select: { id: true, username: true, role: true } }
+          }
         }
       }
-    },
-    include: {
-      user: { select: { id: true, username: true, email: true } },
-      messages: {
-        orderBy: { createdAt: 'asc' },
-        include: {
-          sender: { select: { id: true, username: true, role: true } }
-        }
-      }
-    }
-  })
-
-  return NextResponse.json({ ticket }, { status: 201 })
+    })
+    console.log('[Tickets POST] Created ticket:', ticket.id)
+    return NextResponse.json({ ticket }, { status: 201 })
+  } catch (error) {
+    console.error('[Tickets POST] Prisma error:', error)
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Database error' },
+      { status: 500 }
+    )
+  }
 }
