@@ -155,17 +155,21 @@ export default function DashboardPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: ticketTitle, description: ticketDesc, category: ticketCat, priority: ticketPri }),
       })
-      if (!res.ok) throw new Error('Failed')
-      const ticket = await res.json()
-      setTickets(prev => [ticket.ticket, ...prev])
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error || 'Failed to create ticket')
+      }
+      const data = await res.json()
+      const ticket = data.ticket ?? data
+      setTickets(prev => [ticket, ...prev])
       setShowNewTicket(false)
       setTicketTitle('')
       setTicketDesc('')
       setTicketCat('General')
       setTicketPri('MEDIUM')
-      loadTicketChat(ticket.ticket.id)
-    } catch {
-      setCreateError('Could not create ticket. Try again.')
+      if (ticket.id) loadTicketChat(ticket.id)
+    } catch (err: any) {
+      setCreateError(err.message || 'Could not create ticket. Try again.')
     } finally { setCreating(false) }
   }
 
