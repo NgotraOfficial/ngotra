@@ -22,8 +22,9 @@ export async function POST(request: NextRequest) {
     const user = await prisma.user.findUnique({ where: { email } })
 
     if (!user) {
+      console.error('[Login] User not found:', email)
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: 'User not found. Please register first.' },
         { status: 401 }
       )
     }
@@ -31,8 +32,9 @@ export async function POST(request: NextRequest) {
     const isValidPassword = await bcrypt.compare(password, user.passwordHash)
 
     if (!isValidPassword) {
+      console.error('[Login] Password mismatch for:', email)
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: 'Incorrect password' },
         { status: 401 }
       )
     }
@@ -47,7 +49,11 @@ export async function POST(request: NextRequest) {
       .setExpirationTime('7d')
       .sign(SECRET)
 
-    const response = NextResponse.redirect(new URL('/', request.url))
+    const response = NextResponse.json(
+      { message: 'Login successful', user: { id: user.id, username: user.username, email: user.email, role: user.role } },
+      { status: 200 }
+    )
+
     response.cookies.set('session', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

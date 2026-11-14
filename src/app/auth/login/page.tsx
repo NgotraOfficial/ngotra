@@ -22,11 +22,10 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || 'Login failed')
-      }
-      window.location.href = '/'
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Login failed')
+      router.push('/')
+      router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
       setLoading(false)

@@ -1,27 +1,14 @@
 import { NextResponse } from 'next/server'
+import { requireAdmin } from '@/lib/session'
 import { prisma } from '@/lib/prisma'
-import { jwtVerify } from 'jose'
 
-const SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'ngotra-secret-key-change-in-production-2024'
-)
+export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request) {
-  const cookieHeader = request.headers.get('cookie') || ''
-  const token = cookieHeader.split(';').map(c => c.trim()).find(c => c.startsWith('session='))?.split('=')[1]
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  let user
+export async function GET() {
   try {
-    const { payload } = await jwtVerify(token, SECRET)
-    user = { id: payload.id as string, username: payload.username as string, email: payload.email as string, role: payload.role as string }
-  } catch {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  }
+    const session = await requireAdmin()
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  if (user.role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-
-  try {
     const [services, projects, users, settings, tickets, products, teams, plans, textBlocks] = await Promise.all([
       prisma.service.findMany({ orderBy: { sortOrder: 'asc' } }),
       prisma.project.findMany({ orderBy: { sortOrder: 'asc' } }),

@@ -11,12 +11,33 @@ interface LayoutProps {
   siteSettings?: Record<string, string>
 }
 
-export default function Layout({ children, user, siteSettings }: LayoutProps) {
+export default function Layout({ children, user: initialUser, siteSettings }: LayoutProps) {
+  const [user, setUser] = useState(initialUser)
+  const [loading, setLoading] = useState(!initialUser)
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    async function fetchSession() {
+      try {
+        const res = await fetch('/api/auth/session')
+        if (res.ok) {
+          const data = await res.json()
+          setUser(data.user ?? null)
+        } else {
+          setUser(null)
+        }
+      } catch (e) {
+        console.error('Session fetch failed', e)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchSession()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 16)
@@ -82,7 +103,9 @@ export default function Layout({ children, user, siteSettings }: LayoutProps) {
             </div>
 
             <div className="flex items-center gap-2 relative" ref={profileRef}>
-              {user ? (
+              {loading ? (
+                <div className="w-20 h-9 bg-neutral-800 animate-pulse rounded-lg" />
+              ) : user ? (
                 <>
                   {user.role === 'ADMIN' && (
                     <Link href="/admin" className="px-4 py-2 text-sm text-neutral-400 hover:text-yellow-400 transition-colors rounded-lg">
