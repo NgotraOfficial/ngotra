@@ -29,6 +29,7 @@ export default function DashboardPage() {
     return 'overview'
   })
   const [loading, setLoading] = useState(true)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const [user, setUser] = useState<any>(null)
   const [stats, setStats] = useState<any>(null)
   const [tickets, setTickets] = useState<Ticket[]>([])
@@ -53,36 +54,43 @@ export default function DashboardPage() {
     try {
       const res = await fetch('/api/auth/session')
       const data = await res.json()
-      if (data.user) setUser(data.user)
-      else router.push('/auth/login')
+      if (data.user) {
+        setUser(data.user)
+      } else {
+        window.location.href = '/auth/login'
+      }
     } catch {
-      router.push('/auth/login')
+      window.location.href = '/auth/login'
+    } finally {
+      setCheckingAuth(false)
     }
-  }, [router])
+  }, [])
+
+  useEffect(() => {
+    fetchSession()
+  }, [fetchSession])
 
   const fetchTickets = useCallback(async () => {
     try {
       const res = await fetch('/api/tickets')
       const data = await res.json()
-      setTickets(data)
+      setTickets(data.tickets ?? data)
     } catch {}
   }, [])
 
-  useEffect(() => { fetchSession() }, [fetchSession])
-
   useEffect(() => {
-    if (!user) return
+    if (!user || checkingAuth) return
     ;(async () => {
       try {
         const [st, tk] = await Promise.all([
           fetch('/api/admin/stats').then(r => r.json()).catch(() => null),
-          fetch('/api/tickets').then(r => r.json()).catch(() => []),
+          fetch('/api/tickets').then(r => r.json()).catch(() => ({ tickets: [] })),
         ])
         setStats(st)
-        setTickets(tk)
+        setTickets(tk.tickets ?? tk)
       } finally { setLoading(false) }
     })()
-  }, [user])
+  }, [user, checkingAuth])
 
   const openNewTicket = () => {
     setShowNewTicket(true)
@@ -173,7 +181,7 @@ export default function DashboardPage() {
     }
   }
 
-  if (loading) {
+  if (checkingAuth || loading) {
     return (
       <div className="min-h-screen bg-[#09090b] flex items-center justify-center">
         <Loader2 className="animate-spin text-neutral-600" size={24} />

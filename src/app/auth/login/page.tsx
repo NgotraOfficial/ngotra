@@ -21,14 +21,12 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-        redirect: 'manual',
       })
-      if (res.status === 302 || res.status === 301) {
-        window.location.href = '/'
-      } else {
+      if (!res.ok) {
         const data = await res.json().catch(() => ({}))
         throw new Error(data.error || 'Login failed')
       }
+      window.location.href = '/'
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed')
       setLoading(false)
