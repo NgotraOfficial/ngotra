@@ -3,7 +3,6 @@ import { prisma } from '@/lib/prisma'
 import ContactForm from './ContactForm'
 
 async function getSettings() {
-  'use cache'
   const settingsRaw = await prisma.siteSetting.findMany({
     where: { key: { in: ['social_discord'] } }
   })

@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { ArrowLeft, ExternalLink, Calendar, Tags } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 
-export const instant = false
-
 interface Props {
   params: Promise<{ slug: string }>
 }

@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { ArrowUpRight, Check, Download } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 
-export const instant = false
-
 interface Props {
   params: Promise<{ slug: string }>
 }
