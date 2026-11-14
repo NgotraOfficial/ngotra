@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDown, LogOut, Shield, Activity, MessageSquare, Settings } from 'lucide-react'
+import { ChevronDown, LogOut, Shield, Activity, Settings }
 
 interface LayoutProps {
   children: React.ReactNode
@@ -130,13 +130,6 @@ export default function Layout({ children, user: initialUser, siteSettings }: La
                         <p className="text-xs text-neutral-500 truncate">{user.email}</p>
                       </div>
                       <div className="py-1">
-                        <Link
-                          href="/tickets"
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
-                        >
-                          <MessageSquare size={14} />
-                          My Tickets
-                        </Link>
                         <Link
                           href="/dashboard"
                           className="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-400 hover:text-white hover:bg-white/5 transition-colors"
