@@ -169,7 +169,8 @@ export default function DashboardPage() {
       setTicketPri('MEDIUM')
       if (ticket.id) loadTicketChat(ticket.id)
     } catch (err: any) {
-      setCreateError(err.message || 'Could not create ticket. Try again.')
+      console.error('[CreateTicket] Error:', err)
+      setCreateError(err?.message ?? String(err))
     } finally { setCreating(false) }
   }
 
