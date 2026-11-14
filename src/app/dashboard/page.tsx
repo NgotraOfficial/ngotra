@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Plus, MessageSquare, CheckCircle, Clock, AlertCircle, Shield, ChevronRight, Loader2, Send, Paperclip, MoreHorizontal, Search } from 'lucide-react'
+import { Plus, MessageSquare, CheckCircle, Clock, AlertCircle, Shield, ChevronRight, Loader2, Send, Search } from 'lucide-react'
 
 interface TicketMessage {
   id: string
@@ -49,7 +49,6 @@ export default function DashboardPage() {
   const [messages, setMessages] = useState<TicketMessage[]>([])
   const [messageInput, setMessageInput] = useState('')
   const [sending, setSending] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const chatListRef = useRef<HTMLDivElement>(null)
 
